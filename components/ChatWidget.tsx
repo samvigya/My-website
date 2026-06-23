@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-type Msg = { role: "user" | "model"; text: string };
+type Msg = { role: "user" | "model"; text: string; flagged?: boolean };
 
 const SUGGESTIONS = [
   "Why did you move from analytics to CSM?",
@@ -13,6 +13,8 @@ const SUGGESTIONS = [
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
+  const [hasOpenedChat, setHasOpenedChat] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([
     {
       role: "model",
@@ -22,6 +24,50 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasShownInitialTooltip = useRef(false);
+  const hasShownFooterTooltip = useRef(false);
+
+  // First tooltip: appears once, a few seconds after page load.
+  useEffect(() => {
+    if (hasOpenedChat) return;
+    const timer = setTimeout(() => {
+      if (!hasOpenedChat && !hasShownInitialTooltip.current) {
+        hasShownInitialTooltip.current = true;
+        setShowTooltip(true);
+      }
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [hasOpenedChat]);
+
+  // Second tooltip: appears once when visitor scrolls near the footer/bottom of the page.
+  useEffect(() => {
+    if (hasOpenedChat) return;
+    function onScroll() {
+      if (hasOpenedChat || hasShownFooterTooltip.current) return;
+      const scrolledNearBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 400;
+      if (scrolledNearBottom) {
+        hasShownFooterTooltip.current = true;
+        setShowTooltip(true);
+      }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [hasOpenedChat]);
+
+  // Auto-hide the tooltip after a few seconds if ignored.
+  useEffect(() => {
+    if (!showTooltip) return;
+    const timer = setTimeout(() => setShowTooltip(false), 6000);
+    return () => clearTimeout(timer);
+  }, [showTooltip]);
+
+  function openChat() {
+    setOpen(true);
+    setHasOpenedChat(true);
+    setShowTooltip(false);
+  }
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
@@ -61,7 +107,10 @@ export default function ChatWidget() {
           },
         ]);
       } else {
-        setMessages((m) => [...m, { role: "model", text: data.reply }]);
+        setMessages((m) => [
+          ...m,
+          { role: "model", text: data.reply, flagged: data.flagged },
+        ]);
       }
     } catch {
       setMessages((m) => [
@@ -78,9 +127,44 @@ export default function ChatWidget() {
 
   return (
     <>
+      {/* Tooltip */}
+      <div
+        className="fixed bottom-8 z-50 transition-all duration-300"
+        style={{
+          opacity: showTooltip && !open ? 1 : 0,
+          transform: showTooltip && !open ? "translateY(0) scale(1)" : "translateY(8px) scale(0.95)",
+          pointerEvents: showTooltip && !open ? "auto" : "none",
+          right: "92px",
+        }}
+      >
+        <button
+          onClick={openChat}
+          className="relative bg-white border border-[var(--line)] shadow-lg rounded-2xl px-4 py-3 max-w-[230px] text-left cursor-pointer hover:-translate-y-0.5 transition-transform duration-200"
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowTooltip(false);
+            }}
+            aria-label="Dismiss"
+            className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-[var(--ink)] text-[var(--butter)] text-[10px] flex items-center justify-center cursor-pointer"
+          >
+            ✕
+          </button>
+          <p className="font-[family-name:var(--font-body)] text-[13.5px] text-[var(--ink)] leading-snug">
+            👋 Got a question? Ask me anything — even something out of the box.
+          </p>
+          {/* little tail pointing toward the bubble */}
+          <span
+            className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-3 bg-white border-r border-b border-[var(--line)] rotate-[-45deg]"
+            aria-hidden
+          />
+        </button>
+      </div>
+
       {/* Floating bubble */}
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => (open ? setOpen(false) : openChat())}
         aria-label={open ? "Close chat" : "Open chat"}
         className="fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full shadow-lg flex items-center justify-center text-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
         style={{
@@ -142,6 +226,12 @@ export default function ChatWidget() {
                 }}
               >
                 {m.text}
+                {m.flagged && (
+                  <div className="mt-2 pt-2 border-t border-[var(--line)] flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--coral-deep)]">
+                    <span>📬</span>
+                    <span>Sent to Samvigya — she&apos;ll follow up</span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
