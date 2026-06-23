@@ -9,6 +9,7 @@ import Testimonials from "@/components/Testimonials";
 import Skills from "@/components/Skills";
 import Education from "@/components/Education";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 export default function Home() {
   return (
@@ -69,6 +70,7 @@ export default function Home() {
       </Section>
 
       <Footer />
+      <ChatWidget />
     </>
   );
 }
