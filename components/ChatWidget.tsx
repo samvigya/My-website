@@ -26,6 +26,8 @@ export default function ChatWidget() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasShownInitialTooltip = useRef(false);
   const hasShownFooterTooltip = useRef(false);
+  const hasTurnedTables = useRef(false);
+  const awaitingVisitorAnswer = useRef(false);
 
   // First tooltip: appears once, a few seconds after page load.
   useEffect(() => {
@@ -84,6 +86,9 @@ export default function ChatWidget() {
     setInput("");
     setLoading(true);
 
+    const wasAwaitingAnswer = awaitingVisitorAnswer.current;
+    awaitingVisitorAnswer.current = false;
+
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
@@ -94,6 +99,8 @@ export default function ChatWidget() {
             role: m.role,
             text: m.text,
           })),
+          hasTurnedTables: hasTurnedTables.current,
+          awaitingVisitorAnswer: wasAwaitingAnswer,
         }),
       });
       const data = await res.json();
@@ -107,6 +114,10 @@ export default function ChatWidget() {
           },
         ]);
       } else {
+        if (data.askedVisitorBack) {
+          hasTurnedTables.current = true;
+          awaitingVisitorAnswer.current = true;
+        }
         setMessages((m) => [
           ...m,
           { role: "model", text: data.reply, flagged: data.flagged },
