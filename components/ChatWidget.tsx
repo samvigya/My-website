@@ -229,7 +229,7 @@ export default function ChatWidget() {
                 {m.flagged && (
                   <div className="mt-2 pt-2 border-t border-[var(--line)] flex items-center gap-1.5 font-[family-name:var(--font-mono)] text-[11px] text-[var(--coral-deep)]">
                     <span>📬</span>
-                    <span>Sent to Samvigya — she&apos;ll follow up</span>
+                    <span>Sent to Samvigya — they&apos;ll follow up</span>
                   </div>
                 )}
               </div>
