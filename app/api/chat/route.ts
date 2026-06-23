@@ -164,16 +164,18 @@ async function notifyAndLog({
   flagged: boolean;
   req: NextRequest;
 }) {
+  console.log(`[chatbot question]${flagged ? " [FLAGGED]" : ""} ${question}`);
+
+  // Log every question to Supabase, if configured — independent of email notifications.
+  logToSupabase({ question, reply, flagged }).catch((e) =>
+    console.error("logToSupabase failed:", e)
+  );
+
   const resendKey = process.env.RESEND_API_KEY;
   const notifyEmail = process.env.NOTIFY_EMAIL;
   if (!resendKey || !notifyEmail) return;
 
   // Only email for flagged (unanswerable) questions, to avoid 50 emails/day from every chat message.
-  // Every question is still visible in Vercel's function logs regardless of this flag.
-  console.log(
-    `[chatbot question]${flagged ? " [FLAGGED]" : ""} ${question}`
-  );
-
   if (!flagged) return;
 
   const timestamp = new Date().toLocaleString("en-IN", {
@@ -210,8 +212,51 @@ async function notifyAndLog({
   }
 }
 
+async function logToSupabase({
+  question,
+  reply,
+  flagged,
+}: {
+  question: string;
+  reply: string;
+  flagged: boolean;
+}) {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) return;
+
+  try {
+    const res = await fetch(`${url}/rest/v1/chat_questions`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        "Content-Type": "application/json",
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({
+        question,
+        reply,
+        flagged,
+      }),
+    });
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error("Supabase insert failed:", res.status, errText);
+    }
+  } catch (e) {
+    console.error("Supabase insert threw:", e);
+  }
+}
+
 async function notifyVisitorSignal({ answer }: { answer: string }) {
   console.log(`[visitor signal] ${answer}`);
+
+  logToSupabase({
+    question: "[VISITOR SIGNAL — what they hope this role solves]",
+    reply: answer,
+    flagged: false,
+  }).catch((e) => console.error("logToSupabase failed:", e));
 
   const resendKey = process.env.RESEND_API_KEY;
   const notifyEmail = process.env.NOTIFY_EMAIL;
