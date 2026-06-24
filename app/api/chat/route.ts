@@ -36,6 +36,37 @@ If, and only if, you are told below "TURN_THE_TABLES: true", end your reply (aft
 Do not use [[ASKED_VISITOR]] unless explicitly told TURN_THE_TABLES: true for this message. Never ask the visitor a question back more than once in a conversation.
 `;
 
+async function callGeminiWithRetry(
+  url: string,
+  body: object,
+  maxRetries = 2
+): Promise<Response> {
+  let lastResponse: Response | null = null;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (res.ok) return res;
+
+    lastResponse = res;
+    // Only retry on transient errors — overloaded (503) or rate-limited (429).
+    // Don't retry on anything else (bad request, auth errors, etc.) since retrying won't help.
+    const retryable = res.status === 503 || res.status === 429;
+    if (!retryable || attempt === maxRetries) break;
+
+    // Clone so we can read the body once here for logging without consuming it for the caller.
+    const errText = await res.clone().text();
+    console.warn(
+      `Gemini ${res.status} on attempt ${attempt + 1}/${maxRetries + 1}, retrying shortly:`,
+      errText
+    );
+    await new Promise((r) => setTimeout(r, 800 * (attempt + 1)));
+  }
+  return lastResponse!;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { message, history, hasTurnedTables, awaitingVisitorAnswer } = await req.json();
@@ -84,30 +115,36 @@ export async function POST(req: NextRequest) {
       },
     ];
 
-    const response = await fetch(
+    const response = await callGeminiWithRetry(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: RESUME_CONTEXT }] },
-          contents,
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500,
-            thinkingConfig: {
-              thinkingBudget: 0,
-            },
+        system_instruction: { parts: [{ text: RESUME_CONTEXT }] },
+        contents,
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 500,
+          thinkingConfig: {
+            thinkingBudget: 0,
           },
-        }),
+        },
       }
     );
 
     if (!response.ok) {
       const errText = await response.text();
       console.error("Gemini API error:", errText);
+      const isQuotaError = response.status === 429;
+      const isOverloaded = response.status === 503;
       return NextResponse.json(
-        { error: "Something went wrong reaching the chat model." },
+        {
+          error: isQuotaError
+            ? "Daily quota reached on the free AI plan."
+            : isOverloaded
+            ? "The AI model is overloaded right now."
+            : "Something went wrong reaching the chat model.",
+          quotaExceeded: isQuotaError,
+          overloaded: isOverloaded,
+        },
         { status: 502 }
       );
     }

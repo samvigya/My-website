@@ -109,8 +109,11 @@ export default function ChatWidget() {
           ...m,
           {
             role: "model",
-            text:
-              "Hmm, I'm having trouble responding right now — feel free to email trivedisamvigya@gmail.com directly!",
+            text: data.quotaExceeded
+              ? "I've had a lot of questions today and I'm out of replies for now (free-tier limits 😅) — try again tomorrow, or email trivedisamvigya@gmail.com in the meantime!"
+              : data.overloaded
+              ? "The AI behind me is getting hammered with traffic right now — give it a minute and try again, or email trivedisamvigya@gmail.com if it keeps happening!"
+              : "Hmm, I'm having trouble responding right now — feel free to email trivedisamvigya@gmail.com directly!",
           },
         ]);
       } else {
