@@ -35,7 +35,7 @@ const jobs: Job[] = [
     title: "Senior Analyst — Consumer Insights & Social Intelligence",
     accent: "var(--lavender-deep)",
     bullets: [
-      "Delivered the highest volume of revenue-generating reports on the team — totaling INR 2.6 Cr in revenue generated, the highest on the team — across 50+ executive-ready analyses spanning 3+ international markets, with zero missed deadlines across multi-market, multi-phase studies.",
+      "Delivered the highest volume of revenue-generating reports on the team — totaling INR 2.6 Cr in revenue generated — across 50+ executive-ready analyses spanning 3+ international markets, with zero missed deadlines across multi-market, multi-phase studies.",
       "Built an automated social listening and sentiment analysis platform (Python, NLTK, TextBlob, Streamlit) proactively — cutting report turnaround by 3 hours per cycle and manual effort by 40%, hours that fed straight back to the team.",
       "Monitored sentiment and campaign effectiveness across 5+ channels for 10+ global brands, including a report a client called the best they'd seen in over a decade in social listening.",
       "Managed a wedding break mid-cycle with zero disruption to client deliverables.",

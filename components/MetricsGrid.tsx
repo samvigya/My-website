@@ -27,7 +27,7 @@ const metrics: Metric[] = [
   {
     target: 50,
     suffix: "+",
-    label: "Executive analytics reports delivered, zero missed deadlines",
+    label: "Executive reports shipped — on time, every time",
     bg: "var(--lavender)",
   },
   {
