@@ -57,49 +57,6 @@ body {
   border-radius: 4px;
 }
 
-/* ---------- Custom cursor ---------- */
-@media (pointer: fine) {
-  html.has-custom-cursor,
-  html.has-custom-cursor a,
-  html.has-custom-cursor button {
-    cursor: none !important;
-  }
-}
-
-.cursor-dot,
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9999;
-  pointer-events: none;
-  border-radius: 50%;
-  will-change: transform;
-  transform: translate(-50%, -50%);
-}
-
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--coral-deep);
-}
-
-.cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1.5px solid var(--ink-soft);
-  opacity: 0.55;
-  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-}
-
-.cursor-ring.is-hovering {
-  width: 64px;
-  height: 64px;
-  background: color-mix(in srgb, var(--coral) 35%, transparent);
-  border-color: var(--coral-deep);
-  opacity: 0.9;
-}
-
 /* ---------- Confetti ---------- */
 .confetti-piece {
   position: fixed;

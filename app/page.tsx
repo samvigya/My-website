@@ -10,7 +10,6 @@ import Skills from "@/components/Skills";
 import Education from "@/components/Education";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
-import CustomCursor from "@/components/CustomCursor";
 import Confetti from "@/components/Confetti";
 import EasterEgg from "@/components/EasterEgg";
 
@@ -74,7 +73,6 @@ export default function Home() {
 
       <Footer />
       <ChatWidget />
-      <CustomCursor />
       <Confetti />
       <EasterEgg />
     </>
