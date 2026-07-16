@@ -41,7 +41,7 @@ function QuoteCard({ q, index }: { q: Quote; index: number }) {
     <Reveal delay={index * 90}>
       <figure
         ref={tiltRef}
-        className="tilt-card relative rounded-3xl p-7 bg-white border border-[var(--line)] flex flex-col hover:shadow-xl transition-shadow duration-300"
+        className="tilt-card relative rounded-3xl p-7 h-full bg-white border border-[var(--line)] flex flex-col hover:shadow-xl transition-shadow duration-300"
       >
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center font-[family-name:var(--font-display)] text-lg text-white mb-5"

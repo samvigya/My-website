@@ -68,7 +68,7 @@ function PersonalCard({
       <button
         ref={tiltRef}
         onClick={onToggle}
-        className="tilt-card relative text-left w-full rounded-3xl p-7 border border-[var(--line)] bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
+        className="tilt-card relative text-left w-full h-full rounded-3xl p-7 border border-[var(--line)] bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
         aria-expanded={isFlipped}
       >
         <div

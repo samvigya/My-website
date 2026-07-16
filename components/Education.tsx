@@ -31,7 +31,7 @@ function EducationCard({
     <Reveal delay={index * 90}>
       <div
         ref={tiltRef}
-        className="tilt-card relative rounded-3xl p-6 bg-white border border-[var(--line)] hover:shadow-xl transition-shadow duration-300"
+        className="tilt-card relative rounded-3xl p-6 h-full bg-white border border-[var(--line)] hover:shadow-xl transition-shadow duration-300"
       >
         <span
           className="inline-block w-8 h-1.5 rounded-full mb-4"

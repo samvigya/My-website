@@ -82,7 +82,7 @@ function MetricCard({
     <Reveal delay={index * 80}>
       <div
         ref={tiltRef}
-        className="tilt-card relative rounded-3xl p-6 bg-white border border-[var(--line)] hover:shadow-xl transition-shadow duration-300"
+        className="tilt-card relative rounded-3xl p-6 h-full bg-white border border-[var(--line)] hover:shadow-xl transition-shadow duration-300"
         style={{ boxShadow: "0 2px 0 0 var(--line)" }}
       >
         <div
