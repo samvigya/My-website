@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Reveal from "@/components/Reveal";
+import { useTilt, TiltGlare } from "@/components/TiltCard";
 
 type Metric = {
   prefix?: string;
@@ -65,6 +67,41 @@ function CountUp({ metric, active }: { metric: Metric; active: boolean }) {
   );
 }
 
+function MetricCard({
+  metric,
+  index,
+  active,
+}: {
+  metric: Metric;
+  index: number;
+  active: boolean;
+}) {
+  const tiltRef = useTilt(9);
+
+  return (
+    <Reveal delay={index * 80}>
+      <div
+        ref={tiltRef}
+        className="tilt-card relative rounded-3xl p-6 bg-white border border-[var(--line)] hover:shadow-xl transition-shadow duration-300"
+        style={{ boxShadow: "0 2px 0 0 var(--line)" }}
+      >
+        <div
+          className="w-9 h-9 rounded-full mb-4"
+          style={{ background: metric.bg }}
+          aria-hidden
+        />
+        <div className="font-[family-name:var(--font-mono)] font-semibold text-[clamp(26px,3.5vw,34px)] text-[var(--ink)]">
+          <CountUp metric={metric} active={active} />
+        </div>
+        <p className="mt-2 text-[13px] text-[var(--ink-soft)] leading-snug">
+          {metric.label}
+        </p>
+        <TiltGlare />
+      </div>
+    </Reveal>
+  );
+}
+
 export default function MetricsGrid() {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
@@ -90,23 +127,7 @@ export default function MetricsGrid() {
   return (
     <div ref={ref} className="grid grid-cols-2 md:grid-cols-4 gap-4">
       {metrics.map((m, i) => (
-        <div
-          key={i}
-          className="rounded-3xl p-6 bg-white border border-[var(--line)] hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300"
-          style={{ boxShadow: "0 2px 0 0 var(--line)" }}
-        >
-          <div
-            className="w-9 h-9 rounded-full mb-4"
-            style={{ background: m.bg }}
-            aria-hidden
-          />
-          <div className="font-[family-name:var(--font-mono)] font-semibold text-[clamp(26px,3.5vw,34px)] text-[var(--ink)]">
-            <CountUp metric={m} active={active} />
-          </div>
-          <p className="mt-2 text-[13px] text-[var(--ink-soft)] leading-snug">
-            {m.label}
-          </p>
-        </div>
+        <MetricCard key={i} metric={m} index={i} active={active} />
       ))}
     </div>
   );

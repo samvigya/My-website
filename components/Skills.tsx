@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "@/components/Reveal";
 
 const groups = [
   {
@@ -44,8 +45,8 @@ export default function Skills() {
 
   return (
     <div className="space-y-9">
-      {groups.map((g) => (
-        <div key={g.label}>
+      {groups.map((g, gi) => (
+        <Reveal key={g.label} delay={gi * 120}>
           <div className="flex items-center gap-2 mb-4">
             <span
               className="w-2.5 h-2.5 rounded-full"
@@ -62,7 +63,7 @@ export default function Skills() {
                 <button
                   key={item}
                   onClick={() => setActive(isActive ? null : item)}
-                  className="font-[family-name:var(--font-mono)] text-[13px] rounded-full px-4 py-2 border transition-all duration-200 cursor-pointer"
+                  className="font-[family-name:var(--font-mono)] text-[13px] rounded-full px-4 py-2 border transition-all duration-200 cursor-pointer hover:-translate-y-0.5 hover:shadow-md"
                   style={{
                     background: isActive ? g.color : "white",
                     borderColor: isActive ? g.color : "var(--line)",
@@ -75,7 +76,7 @@ export default function Skills() {
               );
             })}
           </div>
-        </div>
+        </Reveal>
       ))}
     </div>
   );

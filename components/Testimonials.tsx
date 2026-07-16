@@ -1,3 +1,8 @@
+"use client";
+
+import Reveal from "@/components/Reveal";
+import { useTilt, TiltGlare } from "@/components/TiltCard";
+
 type Quote = {
   text: string;
   source: string;
@@ -29,33 +34,44 @@ const quotes: Quote[] = [
   },
 ];
 
+function QuoteCard({ q, index }: { q: Quote; index: number }) {
+  const tiltRef = useTilt(6);
+
+  return (
+    <Reveal delay={index * 90}>
+      <figure
+        ref={tiltRef}
+        className="tilt-card relative rounded-3xl p-7 bg-white border border-[var(--line)] flex flex-col hover:shadow-xl transition-shadow duration-300"
+      >
+        <div
+          className="w-10 h-10 rounded-full flex items-center justify-center font-[family-name:var(--font-display)] text-lg text-white mb-5"
+          style={{ background: q.bg }}
+          aria-hidden
+        >
+          &ldquo;
+        </div>
+        <blockquote className="flex-1 font-[family-name:var(--font-display)] text-[17px] leading-snug text-[var(--ink)]">
+          {q.text}
+        </blockquote>
+        <figcaption className="mt-5 pt-4 border-t border-[var(--line)]">
+          <p className="text-[13px] font-semibold text-[var(--ink)]">
+            {q.source}
+          </p>
+          <p className="text-[12px] text-[var(--ink-soft)] mt-0.5">
+            {q.context}
+          </p>
+        </figcaption>
+        <TiltGlare />
+      </figure>
+    </Reveal>
+  );
+}
+
 export default function Testimonials() {
   return (
     <div className="grid md:grid-cols-3 gap-5">
       {quotes.map((q, i) => (
-        <figure
-          key={i}
-          className="rounded-3xl p-7 bg-white border border-[var(--line)] flex flex-col hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300"
-        >
-          <div
-            className="w-10 h-10 rounded-full flex items-center justify-center font-[family-name:var(--font-display)] text-lg text-white mb-5"
-            style={{ background: q.bg }}
-            aria-hidden
-          >
-            &ldquo;
-          </div>
-          <blockquote className="flex-1 font-[family-name:var(--font-display)] text-[17px] leading-snug text-[var(--ink)]">
-            {q.text}
-          </blockquote>
-          <figcaption className="mt-5 pt-4 border-t border-[var(--line)]">
-            <p className="text-[13px] font-semibold text-[var(--ink)]">
-              {q.source}
-            </p>
-            <p className="text-[12px] text-[var(--ink-soft)] mt-0.5">
-              {q.context}
-            </p>
-          </figcaption>
-        </figure>
+        <QuoteCard key={i} q={q} index={i} />
       ))}
     </div>
   );

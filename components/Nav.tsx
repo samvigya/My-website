@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 const links = [
   { href: "#profile", label: "Profile" },
   { href: "#personal", label: "Outside Work" },
@@ -11,6 +13,20 @@ const links = [
 ];
 
 export default function Nav() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? Math.min(1, scrollTop / docHeight) : 0);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const scrollTo = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -47,6 +63,15 @@ export default function Nav() {
           Contact ↓
         </a>
       </div>
+      <div
+        className="h-[3px] origin-left transition-transform duration-150 ease-out"
+        style={{
+          transform: `scaleX(${progress})`,
+          background:
+            "linear-gradient(to right, var(--coral-deep), var(--lavender-deep), var(--mint-deep))",
+        }}
+        aria-hidden
+      />
     </nav>
   );
 }
