@@ -21,11 +21,10 @@ const jobs: Job[] = [
     current: true,
     accent: "var(--coral-deep)",
     bullets: [
-      "Promoted from Senior Analyst after ARR responsibility jumped from $192K to $794K (313.5% increase) — a step-change my manager flagged as justifying both the raise and the role change.",
-      "Own end-to-end relationships for international Fortune-level clients in FMCG, Flavour & Food, and Pharma, spanning NA, LATAM, EU, and APAC.",
-      "Track account-level KPIs via Mixpanel to proactively surface adoption gaps, retention risk, and expansion opportunity before clients raise them.",
-      "Lead onboarding and activation for 4+ enterprise accounts, coordinating across data, product, and engineering to hit measurable value within the first 30 days.",
-      "Run weekly usage reviews to separate power users from low-engagement accounts, driving the targeted outreach that lifted adoption 20%+.",
+      "Own end-to-end customer success for five global Fortune-level accounts — P&G (Asia, ~$500K), PepsiCo (Asia & Americas, ~$138K), Takasago (Americas, EU, Asia, ~$120K), Winland Foods (US, ~$120K), and Sun Pharma (South Africa, Thailand, Nigeria, ~$36K) — spanning FMCG, Flavour & Food, and Pharma, with combined ARR of $914K.",
+      "Lead onboarding and drive product adoption by solving live client use cases on-platform, showing how the product resolves their business questions — translating consumer voice into decisions across brand, marketing, and innovation.",
+      "Act as day-to-day trusted advisor: resolve queries, deepen platform usage, and grow account health, satisfaction, retention, and expansion.",
+      "Built a proactive account health framework — segmenting accounts by usage signals to flag risk early and identify expansion opportunities — turning reactive support into a repeatable retention and growth motion.",
     ],
   },
   {
@@ -35,10 +34,10 @@ const jobs: Job[] = [
     title: "Senior Analyst — Consumer Insights & Social Intelligence",
     accent: "var(--lavender-deep)",
     bullets: [
-      "Delivered the highest volume of revenue-generating reports on the team — totaling INR 2.6 Cr in revenue generated, the highest on the team — across 50+ executive-ready analyses spanning 3+ international markets, with zero missed deadlines across multi-market, multi-phase studies.",
-      "Built an automated social listening and sentiment analysis platform (Python, NLTK, TextBlob, Streamlit) proactively — cutting report turnaround by 3 hours per cycle and manual effort by 40%, hours that fed straight back to the team.",
-      "Monitored sentiment and campaign effectiveness across 5+ channels for 10+ global brands, including a report a client called the best they'd seen in over a decade in social listening.",
-      "Managed a wedding break mid-cycle with zero disruption to client deliverables.",
+      "Served as sole point of contact across the full report lifecycle, from initial client briefing calls through final delivery, personally presenting all 50+ executive-ready analyses to clients across 3+ international markets, while generating the highest revenue on the team (INR 2.6 Cr) with zero missed deadlines across multi-market, multi-phase studies.",
+      "Proactively identified and automated a manual internal reporting process by building two tools — an influencer vetting platform, and a separate platform combining sentiment analysis and a purchase intent classification model — using Python, Vercel, and Claude Code to ship quickly, saving 5–6 man-hours per day across the team.",
+      "Monitored sentiment and campaign effectiveness across 5+ digital channels for 10+ global brands; one client called a deliverable the best insights report they'd seen in over a decade in social listening.",
+      "Collaborated with product, engineering, and marketing to integrate social performance data into client workflows, supporting A/B testing across 3+ campaigns.",
     ],
   },
   {
@@ -49,7 +48,7 @@ const jobs: Job[] = [
     accent: "var(--mint-deep)",
     bullets: [
       "Built and maintained 10+ Power BI and Excel dashboards across Marketing, Finance, and Sales, optimizing business operations by 20% while holding SLA data quality standards.",
-      "Coordinated across 5+ divisions to resolve data discrepancies, saving 5–6 hours weekly through structured reporting fixes.",
+      "Coordinated across 5+ divisions to investigate and resolve data discrepancies, saving 5–6 hours weekly through structured reporting improvements.",
     ],
   },
 ];

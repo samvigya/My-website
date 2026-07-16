@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "@/components/Reveal";
+import { useTilt, TiltGlare } from "@/components/TiltCard";
 
 type Card = {
   emoji: string;
@@ -48,47 +50,71 @@ const cards: Card[] = [
   },
 ];
 
+function PersonalCard({
+  card,
+  index,
+  isFlipped,
+  onToggle,
+}: {
+  card: Card;
+  index: number;
+  isFlipped: boolean;
+  onToggle: () => void;
+}) {
+  const tiltRef = useTilt(7);
+
+  return (
+    <Reveal delay={index * 70}>
+      <button
+        ref={tiltRef}
+        onClick={onToggle}
+        className="tilt-card relative text-left w-full rounded-3xl p-7 border border-[var(--line)] bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
+        aria-expanded={isFlipped}
+      >
+        <div
+          className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6"
+          style={{ background: card.bg }}
+          aria-hidden
+        >
+          {card.emoji}
+        </div>
+        <h3 className="font-[family-name:var(--font-display)] font-semibold text-[19px] text-[var(--ink)] mb-2">
+          {card.title}
+        </h3>
+        <p
+          className="text-[14.5px] text-[var(--ink-soft)] leading-relaxed transition-all duration-300"
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: isFlipped ? "unset" : 2,
+            overflow: isFlipped ? "visible" : "hidden",
+          }}
+        >
+          {card.body}
+        </p>
+        <span className="inline-block mt-3 font-[family-name:var(--font-mono)] text-[11.5px] text-[var(--ink-soft)] group-hover:text-[var(--coral-deep)]">
+          {isFlipped ? "show less −" : "read more +"}
+        </span>
+        <TiltGlare />
+      </button>
+    </Reveal>
+  );
+}
+
 export default function Personal() {
   const [flipped, setFlipped] = useState<number | null>(null);
 
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-      {cards.map((c, i) => {
-        const isFlipped = flipped === i;
-        return (
-          <button
-            key={c.title}
-            onClick={() => setFlipped(isFlipped ? null : i)}
-            className="text-left rounded-3xl p-7 border border-[var(--line)] bg-white hover:-translate-y-1.5 hover:shadow-lg transition-all duration-300 cursor-pointer group"
-            aria-expanded={isFlipped}
-          >
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-5"
-              style={{ background: c.bg }}
-              aria-hidden
-            >
-              {c.emoji}
-            </div>
-            <h3 className="font-[family-name:var(--font-display)] font-semibold text-[19px] text-[var(--ink)] mb-2">
-              {c.title}
-            </h3>
-            <p
-              className="text-[14.5px] text-[var(--ink-soft)] leading-relaxed transition-all duration-300"
-              style={{
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: isFlipped ? "unset" : 2,
-                overflow: isFlipped ? "visible" : "hidden",
-              }}
-            >
-              {c.body}
-            </p>
-            <span className="inline-block mt-3 font-[family-name:var(--font-mono)] text-[11.5px] text-[var(--ink-soft)] group-hover:text-[var(--coral-deep)]">
-              {isFlipped ? "show less −" : "read more +"}
-            </span>
-          </button>
-        );
-      })}
+      {cards.map((c, i) => (
+        <PersonalCard
+          key={c.title}
+          card={c}
+          index={i}
+          isFlipped={flipped === i}
+          onToggle={() => setFlipped(flipped === i ? null : i)}
+        />
+      ))}
     </div>
   );
 }

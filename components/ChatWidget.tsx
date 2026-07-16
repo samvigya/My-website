@@ -151,8 +151,16 @@ export default function ChatWidget() {
           right: "92px",
         }}
       >
-        <button
+        <div
+          role="button"
+          tabIndex={0}
           onClick={openChat}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              openChat();
+            }
+          }}
           className="relative bg-white border border-[var(--line)] shadow-lg rounded-2xl px-4 py-3 max-w-[230px] text-left cursor-pointer hover:-translate-y-0.5 transition-transform duration-200"
         >
           <button
@@ -173,7 +181,7 @@ export default function ChatWidget() {
             className="absolute top-1/2 -right-1.5 -translate-y-1/2 w-3 h-3 bg-white border-r border-b border-[var(--line)] rotate-[-45deg]"
             aria-hidden
           />
-        </button>
+        </div>
       </div>
 
       {/* Floating bubble */}

@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "@/components/Reveal";
+import { useMagnetic } from "@/components/useMagnetic";
+import HeroCanvas from "@/components/HeroCanvas";
+import { fireConfetti } from "@/components/Confetti";
 
 const titles = [
   "Customer Success Manager",
@@ -11,6 +15,8 @@ const titles = [
 
 export default function Hero() {
   const [titleIndex, setTitleIndex] = useState(0);
+  const primaryCta = useMagnetic(0.25);
+  const secondaryCta = useMagnetic(0.25);
 
   const cycleTitle = () => {
     setTitleIndex((i) => (i + 1) % titles.length);
@@ -21,6 +27,8 @@ export default function Hero() {
       id="top"
       className="relative min-h-screen flex flex-col justify-center pt-16 overflow-hidden"
     >
+      <HeroCanvas />
+
       {/* decorative blobs */}
       <div
         className="absolute -top-24 -right-24 w-96 h-96 rounded-full opacity-60 blur-2xl pointer-events-none"
@@ -36,72 +44,90 @@ export default function Hero() {
       />
 
       <div className="relative max-w-6xl mx-auto px-6 w-full">
-        <div className="inline-flex items-center gap-2 mb-6 bg-white/70 border border-[var(--line)] rounded-full px-4 py-1.5 font-[family-name:var(--font-mono)] text-[12px] text-[var(--ink-soft)]">
-          <span className="w-2 h-2 rounded-full bg-[var(--mint-deep)] animate-pulse" />
-          Open to Senior CSM / Client Success roles
-        </div>
+        <Reveal>
+          <div className="inline-flex items-center gap-2 mb-6 bg-white/70 border border-[var(--line)] rounded-full px-4 py-1.5 font-[family-name:var(--font-mono)] text-[12px] text-[var(--ink-soft)]">
+            <span className="w-2 h-2 rounded-full bg-[var(--mint-deep)] animate-pulse" />
+            Open to Senior CSM / Client Success roles
+          </div>
+        </Reveal>
 
-        <h1 className="font-[family-name:var(--font-display)] font-semibold leading-[0.95] text-[clamp(44px,8vw,96px)] text-[var(--ink)]">
-          Samvigya
-          <br />
-          Trivedi
-        </h1>
+        <Reveal delay={90}>
+          <h1 className="font-[family-name:var(--font-display)] font-semibold leading-[0.95] text-[clamp(44px,8vw,96px)] text-[var(--ink)]">
+            Samvigya
+            <br />
+            Trivedi
+          </h1>
+        </Reveal>
 
-        <div className="mt-4 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13.5px] text-[var(--ink-soft)]">
-          <span>📍 Gurugram, India</span>
-          <span className="text-[var(--line)]">|</span>
-          <a
-            href="https://www.linkedin.com/in/samvigya"
-            target="_blank"
-            className="text-[var(--ink-soft)] border-b border-dashed border-[var(--ink-soft)]/40 hover:text-[var(--coral-deep)] hover:border-[var(--coral-deep)] transition-colors"
+        <Reveal delay={170}>
+          <div className="mt-4 flex items-center gap-2 font-[family-name:var(--font-mono)] text-[13.5px] text-[var(--ink-soft)]">
+            <span>📍 Gurugram, India</span>
+            <span className="text-[var(--line)]">|</span>
+            <a
+              href="https://www.linkedin.com/in/samvigya"
+              target="_blank"
+              className="text-[var(--ink-soft)] border-b border-dashed border-[var(--ink-soft)]/40 hover:text-[var(--coral-deep)] hover:border-[var(--coral-deep)] transition-colors"
+            >
+              LinkedIn ↗
+            </a>
+          </div>
+        </Reveal>
+
+        <Reveal delay={230}>
+          <button
+            onClick={cycleTitle}
+            className="mt-5 group inline-flex items-center gap-3 cursor-pointer"
+            aria-label="Click to see another way to describe my role"
           >
-            LinkedIn ↗
-          </a>
-        </div>
+            <span className="font-[family-name:var(--font-mono)] text-[clamp(16px,2.4vw,22px)] text-[var(--ink-soft)] border-b-2 border-dashed border-[var(--lavender-deep)] group-hover:border-[var(--coral-deep)] transition-colors">
+              {titles[titleIndex]}
+            </span>
+            <span className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--coral-deep)] bg-[var(--coral)]/30 rounded-full px-2.5 py-1 group-hover:bg-[var(--coral)]/50 transition-colors">
+              tap me ↻
+            </span>
+          </button>
+        </Reveal>
 
-        <button
-          onClick={cycleTitle}
-          className="mt-5 group inline-flex items-center gap-3 cursor-pointer"
-          aria-label="Click to see another way to describe my role"
-        >
-          <span className="font-[family-name:var(--font-mono)] text-[clamp(16px,2.4vw,22px)] text-[var(--ink-soft)] border-b-2 border-dashed border-[var(--lavender-deep)] group-hover:border-[var(--coral-deep)] transition-colors">
-            {titles[titleIndex]}
-          </span>
-          <span className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--coral-deep)] bg-[var(--coral)]/30 rounded-full px-2.5 py-1 group-hover:bg-[var(--coral)]/50 transition-colors">
-            tap me ↻
-          </span>
-        </button>
+        <Reveal delay={300}>
+          <p className="mt-7 max-w-xl text-[17px] text-[var(--ink-soft)] leading-relaxed">
+            I spent years inside the data before moving to the seat that uses it —
+            now I own client relationships the way I used to build the reports
+            they were based on. Currently managing a{" "}
+            <span className="font-semibold text-[var(--ink)]">
+              $914K ARR portfolio
+            </span>{" "}
+            across Fortune-level FMCG, Flavour &amp; Food, and Pharma clients
+            spanning NA, LATAM, EU, and APAC.
+          </p>
+        </Reveal>
 
-        <p className="mt-7 max-w-xl text-[17px] text-[var(--ink-soft)] leading-relaxed">
-          I spent years inside the data before moving to the seat that uses it —
-          now I own client relationships the way I used to build the reports
-          they were based on. Currently managing a{" "}
-          <span className="font-semibold text-[var(--ink)]">
-            $794K ARR portfolio
-          </span>{" "}
-          across Fortune-level FMCG, Flavour &amp; Food, and Pharma clients
-          spanning NA, LATAM, EU, and APAC.
-        </p>
-
-        <div className="mt-9 flex flex-wrap gap-3">
-          <a
-            href="#approach"
-            onClick={(e) => {
-              e.preventDefault();
-              document.querySelector("#approach")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="bg-[var(--ink)] text-[var(--butter)] font-[family-name:var(--font-mono)] text-[13px] px-5 py-3 rounded-full hover:bg-[var(--coral-deep)] transition-colors duration-200 cursor-pointer"
-          >
-            See how I solve client problems →
-          </a>
-          <a
-            href="/Samvigya_Trivedi_CSM_Resume.pdf"
-            download
-            className="bg-white border border-[var(--line)] text-[var(--ink)] font-[family-name:var(--font-mono)] text-[13px] px-5 py-3 rounded-full hover:border-[var(--coral-deep)] hover:text-[var(--coral-deep)] transition-colors duration-200"
-          >
-            ↓ Download CV (PDF)
-          </a>
-        </div>
+        <Reveal delay={370}>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <a
+              ref={primaryCta}
+              href="#approach"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector("#approach")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="magnetic-btn bg-[var(--ink)] text-[var(--butter)] font-[family-name:var(--font-mono)] text-[13px] px-5 py-3 rounded-full hover:bg-[var(--coral-deep)] transition-colors duration-200 cursor-pointer"
+            >
+              See how I solve client problems →
+            </a>
+            <a
+              ref={secondaryCta}
+              href="/Samvigya_Trivedi_CSM_Resume.pdf"
+              download
+              onClick={(e) => {
+                const rect = (e.target as HTMLElement).getBoundingClientRect();
+                fireConfetti(rect.left + rect.width / 2, rect.top);
+              }}
+              className="magnetic-btn bg-white border border-[var(--line)] text-[var(--ink)] font-[family-name:var(--font-mono)] text-[13px] px-5 py-3 rounded-full hover:border-[var(--coral-deep)] hover:text-[var(--coral-deep)] transition-colors duration-200"
+            >
+              ↓ Download CV (PDF)
+            </a>
+          </div>
+        </Reveal>
       </div>
     </header>
   );

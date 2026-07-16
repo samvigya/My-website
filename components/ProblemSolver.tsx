@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "@/components/Reveal";
 
 type Step = {
   tag: string;
@@ -44,9 +45,7 @@ export default function ProblemSolver() {
       {steps.map((s, i) => {
         const isOpen = open === i;
         return (
-          <div
-            key={i}
-            className="rounded-2xl border border-[var(--line)] overflow-hidden transition-colors duration-300"
+          <Reveal key={i} delay={i * 90} className="rounded-2xl border border-[var(--line)] overflow-hidden transition-colors duration-300"
             style={{ background: isOpen ? "white" : "var(--butter-deep)" }}
           >
             <button
@@ -85,7 +84,7 @@ export default function ProblemSolver() {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
         );
       })}
     </div>
