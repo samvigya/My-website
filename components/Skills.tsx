@@ -31,6 +31,7 @@ const groups = [
       "Streamlit",
       "Mixpanel",
       "Vercel",
+      "Claude Code",
       "Excel",
       "Google Workspace",
       "Project Management",

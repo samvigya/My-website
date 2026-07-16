@@ -13,15 +13,15 @@ type Metric = {
 const metrics: Metric[] = [
   {
     prefix: "$",
-    target: 794,
+    target: 914,
     suffix: "K",
-    label: "ARR portfolio owned today — up 313.5% from $192K",
+    label: "Combined ARR across 5 Fortune-level global accounts",
     bg: "var(--coral)",
   },
   {
-    target: 20,
-    suffix: "%+",
-    label: "Adoption lift from targeted 1:1 enablement",
+    target: 5,
+    suffix: "",
+    label: "Fortune-level accounts owned end-to-end, spanning NA, LATAM, EU & APAC",
     bg: "var(--mint)",
   },
   {

@@ -77,7 +77,7 @@ export default function Hero() {
           now I own client relationships the way I used to build the reports
           they were based on. Currently managing a{" "}
           <span className="font-semibold text-[var(--ink)]">
-            $794K ARR portfolio
+            $914K ARR portfolio
           </span>{" "}
           across Fortune-level FMCG, Flavour &amp; Food, and Pharma clients
           spanning NA, LATAM, EU, and APAC.

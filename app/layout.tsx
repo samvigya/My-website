@@ -23,7 +23,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Samvigya Trivedi — Customer Success Manager",
   description:
-    "Interactive resume of Samvigya Trivedi — Customer Success Manager. Analytics-rooted CSM managing a $794K ARR portfolio across NA, LATAM, EU & APAC.",
+    "Interactive resume of Samvigya Trivedi — Customer Success Manager. Analytics-rooted CSM managing a $914K ARR portfolio across NA, LATAM, EU & APAC.",
 };
 
 export default function RootLayout({
