@@ -58,8 +58,8 @@ export default function Footer() {
             <span className="text-[var(--coral-deep)]">retention</span>.
           </h2>
           <p className="mt-4 text-[var(--ink-soft)] text-[15px]">
-            Open to Senior CSM and Client Success roles. Based in Gurugram,
-            India — happy to work across time zones.
+            Open to Customer Success Manager and Account Manager roles. Based
+            in Gurugram, India — happy to work across time zones.
           </p>
         </Reveal>
         <Reveal delay={120}>

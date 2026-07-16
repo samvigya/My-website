@@ -47,7 +47,7 @@ export default function Hero() {
         <Reveal>
           <div className="inline-flex items-center gap-2 mb-6 bg-white/70 border border-[var(--line)] rounded-full px-4 py-1.5 font-[family-name:var(--font-mono)] text-[12px] text-[var(--ink-soft)]">
             <span className="w-2 h-2 rounded-full bg-[var(--mint-deep)] animate-pulse" />
-            Open to Senior CSM / Client Success roles
+            Open to Customer Success Manager / Account Manager roles
           </div>
         </Reveal>
 
